@@ -9,7 +9,7 @@ To keep it easy and reduce the amount of tests use EnumType.
 # Installation
 
 ```console
-composer require phariscope/doctrine-enum-type
+composer require phariscope/doctrineenumtype
 ```
 
 # Usage

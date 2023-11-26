@@ -17,7 +17,7 @@
     "require": {
         "php": ">=8.1",
         "doctrine/dbal": "3.*",
-        "phariscope/safephp": "1.x-dev"
+        "phariscope/safephp": "1.*"
     },
     "require-dev": {
         "infection/extension-installer": "0.1.2",
