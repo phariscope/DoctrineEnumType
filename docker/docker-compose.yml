@@ -1,0 +1,60 @@
+services:
+  nginx-devlocal:
+    container_name: "spark-nginx"
+    build:
+      context: ../.
+      dockerfile: docker/nginx/Dockerfile
+    command: [nginx, '-g', 'daemon off;']
+    depends_on:
+      - php-devlocal
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - "$PWD/..:/var/spark"
+    ports:
+      - "33080:80"
+      - "2443:443"
+    networks:
+      - spark-networks
+
+  php-devlocal:
+    container_name: "spark-php"
+    build:
+      context: ../.
+      dockerfile: docker/php/Dockerfile
+      tags:
+        - php-spark
+    user: 1000:1000
+    volumes:
+      - ../../log:/var/spark/log
+      - "$PWD/..:/var/spark"
+      - "$PWD/..:$PWD/.."
+    working_dir: $PWD/..
+    depends_on:
+      mariadb:
+        condition: service_started
+    networks:
+      - spark-networks
+  
+  mariadb:
+    image: mariadb:10
+    container_name: "spark-mariadb"
+    restart: always
+    volumes: 
+      - spark-db:/var/lib/mysql
+      - ../../mariabackup:/backup
+    env_file:
+      - ./mariadb/db.env
+    networks:
+      - spark-networks
+
+networks:
+  spark-networks:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: fd00:1:1::/112
+          gateway: fd00:1:1::1
+
+volumes:
+  spark-db:

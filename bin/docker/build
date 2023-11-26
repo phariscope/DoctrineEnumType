@@ -1,0 +1,9 @@
+#!/bin/bash
+
+source ../.env
+
+for folder in $(ls -d */); do
+    # remove the last char of the folder name
+    folder=${folder%?}
+    docker build -t $folder:$project_name $folder
+done

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+DIR_VAR=var
+if [ ! -d "$DIR_VAR" ]; then
+    mkdir $DIR_VAR
+fi
+
+echo "Docker images build"
+cd bin/docker
+./build
+cd ../..
+
+echo "Composer install, 'vendor' folder is created"
+bin/composer install
