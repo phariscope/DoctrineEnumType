@@ -67,7 +67,12 @@ abstract class EnumType extends Type
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if (!($value instanceof $this->className)) {
-            throw new ConversionException(sprintf("Bad class for '%s'", strval($value)));
+            $initialValue = $value;
+            $value = $this->className::tryFrom($value);
+
+            if (is_null($value)) {
+                throw new ConversionException(sprintf("Bad class for '%s'", strval($initialValue)));
+            }
         }
         if (isset($value->value)) {
             return $value->value;

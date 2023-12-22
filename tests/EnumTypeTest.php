@@ -57,6 +57,15 @@ class EnumTypeTest extends TestCase
         $dbValue = $type->convertToDatabaseValue(new NotEnumExample(), $platform);
     }
 
+    public function testConvertToDatabaseStringValue(): void
+    {
+        $platform = $this->createMock(AbstractPlatform::class);
+
+        $type = new EnumExampleType();
+        $dbValue = $type->convertToDatabaseValue('FAKE', $platform);
+        $this->assertEquals('FAKE', $dbValue);
+    }
+
     public function testSQLDeclarationMariaDB(): void
     {
         $platform = new MariaDBPlatform();
