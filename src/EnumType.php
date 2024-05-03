@@ -15,7 +15,7 @@ abstract class EnumType extends Type
     protected string $name = '';
     protected string $className;
 
-    public function getName()
+    public function getName(): string
     {
         $name = $this->name == '' ? $this->getClassName() : $this->name;
         return $name;
