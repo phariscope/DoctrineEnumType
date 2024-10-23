@@ -6,7 +6,6 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Types\ConversionException;
-use Infection\Mutator\Boolean\InstanceOf_;
 
 use function SafePHP\strval;
 
@@ -49,7 +48,7 @@ abstract class EnumType extends Type
      *
      * @throws ConversionException
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): mixed
     {
         return $this->className::tryFrom($value);
     }
@@ -64,7 +63,7 @@ abstract class EnumType extends Type
      *
      * @throws ConversionException
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         if (!($value instanceof $this->className)) {
             $initialValue = $value;
@@ -86,7 +85,7 @@ abstract class EnumType extends Type
      *
      * @return string[]
      */
-    public function getMappedDatabaseTypes(AbstractPlatform $platform)
+    public function getMappedDatabaseTypes(AbstractPlatform $platform): array
     {
         if ($platform instanceof MariaDBPlatform) {
             return ['enum'];

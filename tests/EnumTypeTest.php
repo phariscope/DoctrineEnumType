@@ -4,7 +4,7 @@ namespace Phariscope\DoctrineEnumType\Tests;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\MariaDBPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use PHPUnit\Framework\TestCase;
 
@@ -51,7 +51,7 @@ class EnumTypeTest extends TestCase
             "Not defined filed 'value' for 'Phariscope\DoctrineEnumType\Tests\NotEnumExample'"
         );
 
-        $platform = new SqlitePlatform();
+        $platform = new SQLitePlatform();
 
         $type = new NotEnumExampleType();
         $dbValue = $type->convertToDatabaseValue(new NotEnumExample(), $platform);

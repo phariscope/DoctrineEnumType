@@ -1,4 +1,4 @@
-FROM composer:2.5.5
+FROM composer:2.6.6
 
 # Install necessary dependencies
 RUN apk update \
