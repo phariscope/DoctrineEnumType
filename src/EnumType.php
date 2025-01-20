@@ -25,8 +25,10 @@ abstract class EnumType extends Type
         return substr($this->className, strrpos($this->className, '\\') + 1);
     }
 
+    /** @param array<string,string> $column */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
+        /** @var array<object{value:string}> $cases */
         $cases = $this->className::cases();
         $values = array_map(function ($val) {
             return "'" . $val->value . "'";
@@ -67,12 +69,14 @@ abstract class EnumType extends Type
     {
         if (!($value instanceof $this->className)) {
             $initialValue = $value;
+            /** @var ?object{value?:string} $value */
             $value = $this->className::tryFrom($value);
 
             if (is_null($value)) {
                 throw new ConversionException(sprintf("Bad class for '%s'", strval($initialValue)));
             }
         }
+        /** @var object{value?:string} $value */
         if (isset($value->value)) {
             return $value->value;
         }
